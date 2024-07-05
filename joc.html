@@ -28,7 +28,7 @@
   <b>joc</b>
 </nav>
 
-<h1>Joc: endevina la bandera</h1>
+<h1>Endevina la bandera</h1>
 
 <div id=app>
   <div>
@@ -331,8 +331,8 @@
 
     methods:{
       get_pregunta(){
-        let arr  = Object.entries(this.codis);
-        let n    = arr.length;
+        let arr = Object.entries(this.codis);
+        let n = arr.length;
 
         //4 numeros random
         let iiii = [
@@ -346,7 +346,7 @@
         let noms = iiii.map(i=>arr[i][1]);
 
         //un dels codis
-        let i    = Math.floor(4*Math.random());
+        let i = Math.floor(4*Math.random());
         let codi = arr[iiii[i]][0];
 
         return {noms,codi};
@@ -362,7 +362,6 @@
       },
 
       refresca_pregunta(){
-        console.log("hola");
         this.pregunta = this.get_pregunta();
       },
     },
