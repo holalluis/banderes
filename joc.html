@@ -334,18 +334,19 @@
         let arr = Object.entries(this.codis);
         let n = arr.length;
 
-        //4 numeros random
-        let iiii = [
-          Math.floor(n*Math.random()),
-          Math.floor(n*Math.random()),
-          Math.floor(n*Math.random()),
-          Math.floor(n*Math.random()),
-        ];
+        //set de 4 numeros random diferents
+        let set = new Set();
+        while(set.size!=4){
+          let r = Math.floor(n*Math.random());
+          set.add(r);
+        }
+
+        let iiii = Array.from(set);
 
         //els 4 noms corresponents
         let noms = iiii.map(i=>arr[i][1]);
 
-        //un dels codis
+        //agafa un dels codis
         let i = Math.floor(4*Math.random());
         let codi = arr[iiii[i]][0];
 
