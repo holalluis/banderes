@@ -16,9 +16,9 @@
   <a href="joc.html">joc</a>
 </nav>
 
-<h1>Banderes</h1>
 
 <div id=app>
+  <h1>Banderes ({{quantitat}})</h1>
   <div
     style="
       display:grid;
@@ -303,6 +303,7 @@
   let app=Vue.createApp({
     data(){return{
       codis,
+      quantitat:Object.keys(codis).length,
     }},
   }).mount("#app");
 </script>
