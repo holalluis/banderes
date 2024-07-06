@@ -19,6 +19,7 @@
 
 <div id=app>
   <h1>Banderes ({{quantitat}})</h1>
+  <input v-model="filtre" placeholder="filtre">
   <div
     style="
       display:grid;
@@ -26,7 +27,7 @@
       grid-gap:1px;
     "
   >
-    <div v-for="nom,codi in codis"
+    <div v-for="nom,codi in get_codis_filtrats"
       style="
         border:1px solid #ccc;
       "
@@ -304,6 +305,23 @@
     data(){return{
       codis,
       quantitat:Object.keys(codis).length,
+      filtre:"",
     }},
+    computed:{
+      get_codis_filtrats(){
+        if(this.filtre=="") return this.codis;
+
+        let f = this.filtre.toUpperCase();
+
+        let codis={};
+        Object.entries(this.codis).forEach(([key,value])=>{
+          if(value.toUpperCase().includes(f)){
+            codis[key]=value;
+          }
+        });
+
+        return codis;
+      },
+    },
   }).mount("#app");
 </script>
