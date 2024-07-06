@@ -19,7 +19,14 @@
 
 <div id=app>
   <h1>Banderes ({{quantitat}})</h1>
+
   <input v-model="filtre" placeholder="filtre">
+  <code v-if="filtre">
+    {{get_n_resultats}}
+    <span v-if="get_n_resultats==1">resultat</span>
+    <span v-if="get_n_resultats!=1">resultats</span>
+  </code>
+
   <div
     style="
       display:grid;
@@ -321,6 +328,10 @@
         });
 
         return codis;
+      },
+
+      get_n_resultats(){
+        return Object.keys(this.get_codis_filtrats).length;
       },
     },
   }).mount("#app");
