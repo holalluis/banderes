@@ -16,17 +16,17 @@
   <a href="joc.html">joc</a>
 </nav>
 
-
 <div id=app>
   <h1>Banderes ({{quantitat}})</h1>
-
-  <input v-model="filtre" placeholder="filtre">
-  <code v-if="filtre">
-    {{get_n_resultats}}
-    <span v-if="get_n_resultats==1">resultat</span>
-    <span v-if="get_n_resultats!=1">resultats</span>
-  </code>
-
+  <div>
+    <input v-model="filtre" placeholder="filtre">
+    <code v-if="filtre">&nbsp;<!--
+      -->{{get_n_resultats}}
+      <span v-if="get_n_resultats==1">resultat</span>
+      <span v-if="get_n_resultats!=1">resultats</span>
+    </code>
+    <div style="margin-bottom:5px"></div>
+  </div>
   <div
     style="
       display:grid;
@@ -34,14 +34,11 @@
       grid-gap:1px;
     "
   >
-    <div v-for="nom,codi in get_codis_filtrats"
-      style="
-        border:1px solid #ccc;
-      "
+    <div
+      v-for="nom,codi in get_codis_filtrats"
+      style="border:1px solid #ccc;"
     >
-      <div>
-        <img :src="`img/${codi}.svg`" class=bandera>
-      </div>
+      <img :src="`img/${codi}.svg`" class=bandera>
       <div>{{nom}}</div>
     </div>
   </div>
