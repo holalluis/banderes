@@ -19,7 +19,7 @@
 <div id=app>
   <h1>Banderes ({{quantitat}})</h1>
   <div>
-    <input v-model="filtre" placeholder="filtre">
+    <input v-model="filtre" placeholder="filtre" style="width:75%">
     <code v-if="filtre">&nbsp;<!--
       -->{{get_n_resultats}}
       <span v-if="get_n_resultats==1">resultat</span>
@@ -315,11 +315,13 @@
       get_codis_filtrats(){
         if(this.filtre=="") return this.codis;
 
-        let f = this.filtre.toUpperCase();
+        let f = this.filtre.trim().toUpperCase();
+        let tokens = f.split(" ");
+        let codis={}; //return value
 
-        let codis={};
         Object.entries(this.codis).forEach(([key,value])=>{
-          if(value.toUpperCase().includes(f)){
+          let uc_nom = value.toUpperCase();
+          if(tokens.some(t=>uc_nom.includes(t))){
             codis[key]=value;
           }
         });
