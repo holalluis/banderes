@@ -319,10 +319,22 @@
         let tokens = f.split(" ");
         let codis={}; //return value
 
+        let tokens_include = tokens.filter(t=>t[0]!="!");
+        let tokens_exclude = tokens.filter(t=>t[0]=="!").map(t=>t.substring(1));
+
+        //console.log({tokens_include, tokens_exclude});
+
         Object.entries(this.codis).forEach(([key,value])=>{
           let uc_nom = value.toUpperCase();
-          if(tokens.some(t=>uc_nom.includes(t))){
+          if(tokens_include.some(t=>uc_nom.includes(t))){
             codis[key]=value;
+          }
+        });
+
+        Object.entries(codis).forEach(([key,value])=>{
+          let uc_nom = value.toUpperCase();
+          if(tokens_exclude.some(t=>uc_nom.includes(t))){
+            delete codis[key];
           }
         });
 
