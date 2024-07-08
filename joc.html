@@ -23,11 +23,14 @@
     }
   </style>
 </head><body>
+
 <nav>
   <a href="index.html">Inici</a> |
   <b>Joc</b>
 </nav>
+
 <h1>Endevina la bandera</h1>
+
 <div id=app>
   <div>
     <div>Respostes correctes: {{correctes}}</div>
@@ -340,9 +343,9 @@
         }
         barreja(arr);
 
-        console.log(arr.map(e=>e[0]));
+        //console.log(arr.map(e=>e[0])); //debug
 
-        //crea array de 4 noms de països 
+        //crea array de 4 noms de països
         let noms = null;
         if(n>3){
           noms=[
@@ -352,14 +355,15 @@
             arr[3][1],
           ];
         }else{
-          //cas especial: quan queden 3 o menys elements a l'array de països
-          //el preguntat sempre és el primer
-          //array amb tots els noms de països
-          let tmp = barreja(Object.entries(codis));
-          //assegura que no es repeteixin
-          let s = new Set([arr[0][1]]);
+          //cas especial: quan queden 3 o menys elements a l'array de països el
+          //preguntat sempre és el primer element i les altres opcions venen
+          //d'un array amb tots els noms de països on s'assegura que no es
+          //repeteixin
+          let tots = barreja(Object.entries(codis));
+          let s = new Set();
+          s.add(arr[0][1]);
           while(s.size!=4){
-            let nom = tmp.shift()[1];
+            let nom = tots.shift()[1];
             s.add(nom);
           }
           noms=Array.from(s);
@@ -372,7 +376,8 @@
         //elimina objecte de l'array
         arr.shift();
 
-        return {noms,codi};
+        //return objecte amb el codi preguntat i l'array de possibles respostes
+        return {codi,noms};
       },
 
       respon(codi,resposta){
@@ -397,10 +402,10 @@
   //algoritme yates barrejar array
   function barreja(arr){
     for(let i=arr.length-1;i>0;i--){
-      let j=Math.floor(Math.random()*(i+1));
-      let temp=arr[i];
-      arr[i]=arr[j];
-      arr[j]=temp;
+      let j    = Math.floor(Math.random()*(i+1));
+      let temp = arr[i];
+      arr[i]   = arr[j];
+      arr[j]   = temp;
     }
     return arr;
   }
