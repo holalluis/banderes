@@ -1,8 +1,9 @@
 <!doctype html><html><head>
   <meta charset=utf8>
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" href="favicon.ico" type="image/x-icon">
   <title>Banderes</title>
-  <script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
+  <script src="vue.global.prod.js"></script>
   <style>
     img.bandera{
       width:200px;
@@ -22,14 +23,11 @@
     }
   </style>
 </head><body>
-
 <nav>
   <a href="index.html">Inici</a> |
   <b>Joc</b>
 </nav>
-
 <h1>Endevina la bandera</h1>
-
 <div id=app>
   <div>
     <div>Respostes correctes: {{correctes}}</div>
@@ -40,7 +38,9 @@
     <table border=1 v-for="p in [pregunta]">
       <tr>
         <td colspan=2>
-          <img class=bandera :src="`img/${p.codi}.svg`"
+          <img
+            class=bandera
+            :src="`img/${p.codi}.svg`"
             style="
               display:block;
               margin:auto;
@@ -320,10 +320,10 @@
     "zw": "Zimbabwe",
   };
 
-  /*Vue app*/
   let app=Vue.createApp({
     data(){return{
       codis,
+      arr:Object.entries(codis),
       pregunta:null,
       correctes:0,
       incorrectes:0,
@@ -331,24 +331,46 @@
 
     methods:{
       get_pregunta(){
-        let arr = Object.entries(this.codis);
-        let n = arr.length;
-
-        //set de 4 numeros random diferents
-        let set = new Set();
-        while(set.size!=4){
-          let r = Math.floor(n*Math.random());
-          set.add(r);
+        let arr = this.arr;
+        let n   = arr.length;
+        if(n==0){
+          this.arr = Object.entries(codis);
+          arr      = this.arr;
+          n        = arr.length;
         }
+        barreja(arr);
 
-        let iiii = Array.from(set);
+        console.log(arr.map(e=>e[0]));
 
-        //els 4 noms corresponents
-        let noms = iiii.map(i=>arr[i][1]);
+        //crea array de 4 noms de països 
+        let noms = null;
+        if(n>3){
+          noms=[
+            arr[0][1],
+            arr[1][1],
+            arr[2][1],
+            arr[3][1],
+          ];
+        }else{
+          //cas especial: quan queden 3 o menys elements a l'array de països
+          //el preguntat sempre és el primer
+          //array amb tots els noms de països
+          let tmp = barreja(Object.entries(codis));
+          //assegura que no es repeteixin
+          let s = new Set([arr[0][1]]);
+          while(s.size!=4){
+            let nom = tmp.shift()[1];
+            s.add(nom);
+          }
+          noms=Array.from(s);
+        }
+        barreja(noms);
 
-        //agafa un dels codis
-        let i = Math.floor(4*Math.random());
-        let codi = arr[iiii[i]][0];
+        //codi del país preguntat
+        let codi = arr[0][0];
+
+        //elimina objecte de l'array
+        arr.shift();
 
         return {noms,codi};
       },
@@ -371,4 +393,15 @@
       this.refresca_pregunta();
     },
   }).mount("#app");
+
+  //algoritme yates barrejar array
+  function barreja(arr){
+    for(let i=arr.length-1;i>0;i--){
+      let j=Math.floor(Math.random()*(i+1));
+      let temp=arr[i];
+      arr[i]=arr[j];
+      arr[j]=temp;
+    }
+    return arr;
+  }
 </script>
